@@ -20,6 +20,10 @@ public class Main {
             case "-a":
                 sortMode = "asc";
                 i++;
+                if (!args[i].equals("-s") && !args[i].equals("-i")){
+                    System.out.println("Parameters error.");
+                    System.exit(0);
+                }
                 if (args[i].equals("-s")) { // Проверить
                     dataType = "string";
                     outputFileName = args[i + 1];
@@ -28,9 +32,6 @@ public class Main {
                     dataType = "integer";
                     outputFileName = args[i + 1];
                     i += 2;
-                } else { // вариант работает
-                    System.out.println("Parameters error.");
-                    System.exit(0);
                 }
                 for (j = i; j < args.length; j++) { // вариант работает
                     inFiles.add(args[j]);
@@ -45,6 +46,10 @@ public class Main {
             case "-d":
                 sortMode = "desc";
                 i++;
+                if (!args[i].equals("-s") && !args[i].equals("-i")){
+                    System.out.println("Parameters error.");
+                    System.exit(0);
+                }
                 if (args[i].equals("-s")) {
                     dataType = "string";
                     outputFileName = args[i + 1];
@@ -53,9 +58,6 @@ public class Main {
                     dataType = "integer";
                     outputFileName = args[i + 1];
                     i += 2;
-                } else { // вариант работает
-                    System.out.println("Parameters error.");
-                    System.exit(0);
                 }
                 for (j = i; j < args.length; j++) { // вариант работает
                     inFiles.add(args[j]);
@@ -67,27 +69,43 @@ public class Main {
                     sortMerge.sortToFile(inFiles);
                 }
             default:
-                sortMode = "asc";
-                if (args[i].equals("-s")) {
-                    dataType = "string";
-                    outputFileName = args[i + 1];
-                    i += 2;
-                } else if (args[i].equals("-i")) { // вариант работает
-                    dataType = "integer";
-                    outputFileName = args[i + 1];
-                    i += 2;
-                } else { // вариант работает
+
+                String symbol = args[0];
+                System.out.println(symbol);
+                if (symbol.equals("-d") || symbol.equals("-a")){
+                    //System.out.println("Parameters error.");
+                    System.exit(0);
+                } else {
+                    sortMode = "asc";
+                /*if (!(args[0].equals("-s")) & !(args[0].equals("-i"))){
                     System.out.println("Parameters error.");
                     System.exit(0);
                 }
-                for (j = i; j < args.length; j++) { // вариант работает
-                    inFiles.add(args[j]);
-                }
-                if (inFiles.size() < 1) { // вариант работает
-                    System.out.println("No input files found.");
-                } else { // вариант работает
-                    SortMerge sortMerge = new SortMerge(sortMode, dataType, outputFileName);
-                    sortMerge.sortToFile(inFiles);
+                if (!args[i].equals("-s") && !args[i].equals("-i")){
+                    System.out.println("Parameters error.");
+                    System.exit(0);
+                }*/
+                    if (args[i].equals("-s")) {
+                        dataType = "string";
+                        outputFileName = args[i + 1];
+                        i += 2;
+                    } else if (args[i].equals("-i")) { // вариант работает
+                        dataType = "integer";
+                        outputFileName = args[i + 1];
+                        i += 2;
+                    } else {
+                        System.out.println("Parameters error. Сomplete the program.");
+                        System.exit(0);
+                    }
+                    for (j = i; j < args.length; j++) { // вариант работает
+                        inFiles.add(args[j]);
+                    }
+                    if (inFiles.size() < 1) { // вариант работает
+                        System.out.println("No input files found.");
+                    } else { // вариант работает
+                        SortMerge sortMerge = new SortMerge(sortMode, dataType, outputFileName);
+                        sortMerge.sortToFile(inFiles);
+                    }
                 }
         }
     }

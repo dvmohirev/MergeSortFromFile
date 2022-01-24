@@ -167,30 +167,41 @@ public class SortMerge {
 
     //Функция для сортировки слиянием двух массивов по убыванию - НУЖНО ДОРАБОТАТЬ
     public static int[] sortMergeDownInt(int[] arrayFirst, int[] arrayTwo){
-
         int[] arrayC = new int[arrayFirst.length + arrayTwo.length];
-        int i=arrayFirst.length-1, j=arrayTwo.length-1;
-        for (int k=0; k < arrayC.length; k++) {
+        int cursorA = 0,cursorB = 0,cursorC = 0;
+        int sizeA = arrayFirst.length;
+        int sizeB = arrayTwo.length;
 
-            if (i < arrayFirst.length-1) {
-                int a = arrayTwo[j];
-                arrayC[k] = a;
-                j--;
+        for (int k = 0; k < arrayTwo.length/2; k++) {
+            int tmp = arrayTwo[k];
+            arrayTwo[k] = arrayTwo[arrayTwo.length - k - 1];
+            arrayTwo[arrayTwo.length - k - 1] = tmp;
+        }
+
+        if (sizeA == 0){
+            arrayC = arrayTwo;
+        } else {
+
+            // Runs until neither array is empty
+            while (cursorA < sizeA && cursorB < sizeB) {
+                // Compare the items of two arrays and copy the smaller item into to third array
+                if (arrayFirst[cursorA] > arrayTwo[cursorB]) {
+                    arrayC[cursorC++] = arrayFirst[cursorA++];
+                } else {
+                    arrayC[cursorC++] = arrayTwo[cursorB++];
+                }
             }
-            else if (j < arrayTwo.length-1) {
-                int a = arrayFirst[i];
-                arrayC[k] = a;
-                i--;
+
+            // If array B's cursor scanned and compared all the items of the array
+            // but array A's is not
+            while (cursorA < sizeA) {
+                arrayC[cursorC++] = arrayFirst[cursorA++];
             }
-            else if (arrayFirst[i] > arrayTwo[j]) {
-                int a = arrayFirst[i];
-                arrayC[k] = a;
-                i--;
-            }
-            else {
-                int b = arrayTwo[j];
-                arrayC[k] = b;
-                j--;
+
+            // If array A's cursor scanned and compared all the items of the array
+            // but array B's is not
+            while (cursorB < sizeB) {
+                arrayC[cursorC++] = arrayTwo[cursorB++];
             }
         }
         return arrayC;
@@ -199,6 +210,29 @@ public class SortMerge {
     public static String [] sortMergeUpStr(String[] arrayFirst, String[] arrayTwo) {
         String[] arrayC = new String[arrayFirst.length + arrayTwo.length];
         int i=0, j=0;
+        for (int k=0; k < arrayC.length; k++) {
+
+            if (i > arrayFirst.length-1) {
+                String a = arrayTwo[j];
+                arrayC[k] = a;
+                j++;
+            }
+            else if (j > arrayTwo.length-1) {
+                String a = arrayFirst[i];
+                arrayC[k] = a;
+                i++;
+            }
+            else if (arrayFirst[i].compareTo(arrayTwo[j]) < 0/*arrayFirst[i] < arrayTwo[j]*/) {
+                String a = arrayFirst[i];
+                arrayC[k] = a;
+                i++;
+            }
+            else {
+                String b = arrayTwo[j];
+                arrayC[k] = b;
+                j++;
+            }
+        }
         return arrayC;
     }
 
@@ -206,7 +240,42 @@ public class SortMerge {
     public static String[] sortMergeDownStr(String[] arrayFirst, String[] arrayTwo){
 
         String[] arrayC = new String[arrayFirst.length + arrayTwo.length];
-        int i=0, j=0;
+        int cursorA = 0,cursorB = 0,cursorC = 0;
+        int sizeA = arrayFirst.length;
+        int sizeB = arrayTwo.length;
+
+        for (int k = 0; k < arrayTwo.length/2; k++) {
+            String tmp = arrayTwo[k];
+            arrayTwo[k] = arrayTwo[arrayTwo.length - k - 1];
+            arrayTwo[arrayTwo.length - k - 1] = tmp;
+        }
+
+        if (sizeA == 0){
+            arrayC = arrayTwo;
+        } else {
+
+            // Runs until neither array is empty
+            while (cursorA < sizeA && cursorB < sizeB) {
+                // Compare the items of two arrays and copy the smaller item into to third array
+                if (arrayFirst[cursorA].compareTo(arrayTwo[cursorB]) > 0/*arrayFirst[cursorA] > arrayTwo[cursorB]*/) {
+                    arrayC[cursorC++] = arrayFirst[cursorA++];
+                } else {
+                    arrayC[cursorC++] = arrayTwo[cursorB++];
+                }
+            }
+
+            // If array B's cursor scanned and compared all the items of the array
+            // but array A's is not
+            while (cursorA < sizeA) {
+                arrayC[cursorC++] = arrayFirst[cursorA++];
+            }
+
+            // If array A's cursor scanned and compared all the items of the array
+            // but array B's is not
+            while (cursorB < sizeB) {
+                arrayC[cursorC++] = arrayTwo[cursorB++];
+            }
+        }
         return arrayC;
     }
 
